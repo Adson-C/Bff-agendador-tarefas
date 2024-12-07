@@ -23,7 +23,7 @@ public class UsuarioController {
     @PostMapping
     @Operation(summary = "Salvar Usuarios", description = "Criar um novo usuario")
     @ApiResponse(responseCode = "200", description = "Usuario salvo com sucesso")
-    @ApiResponse(responseCode = "400", description = "Usuario já cadastrado")
+    @ApiResponse(responseCode = "409", description = "Usuario já cadastrado")
     @ApiResponse(responseCode = "500", description = "Erro no servidor")
     public ResponseEntity<UsuarioDTORequest> salvaUsuario(@RequestBody UsuarioDTORequest usuarioDTO) {
         return ResponseEntity.ok(usuarioService.salvaUsuario(usuarioDTO));
@@ -43,7 +43,7 @@ public class UsuarioController {
     @GetMapping
     @Operation(summary = "Buscar dados de Usurios por email", description = "Buscar Dados do Usuario")
     @ApiResponse(responseCode = "200", description = "Usuario encontrado")
-    @ApiResponse(responseCode = "404", description = "Usuario não encontrado")
+    @ApiResponse(responseCode = "403", description = "Usuario não encontrado")
     @ApiResponse(responseCode = "500", description = "Erro no servidor")
     public ResponseEntity<UsuarioDTORequest> buscarPorEmail(@RequestParam("email") String email,
                                                             @RequestHeader(name = "Authorization", required =false) String token){
@@ -53,8 +53,9 @@ public class UsuarioController {
     @DeleteMapping("/{email}")
     @Operation(summary = "Deleta Usuarios por Id", description = "Deleta usuario")
     @ApiResponse(responseCode = "200", description = "Usuario atualizado com sucesso")
-    @ApiResponse(responseCode = "404", description = "Usuario não encontrado")
+    @ApiResponse(responseCode = "403", description = "Usuario não encontrado")
     @ApiResponse(responseCode = "500", description = "Erro no servidor")
+    @ApiResponse(responseCode = "401", description = "Usuario não autorizado")
     public ResponseEntity<Void> deletarPorEmail(@PathVariable String email,
                                                 @RequestHeader(name = "Authorization", required =false) String token){
         usuarioService.deletarUsuarioPorEmail(email, token);
@@ -64,8 +65,9 @@ public class UsuarioController {
     @PutMapping
     @Operation(summary = "Atualizar dados do Usuarios", description = "Atualizar dados do Usuarios")
     @ApiResponse(responseCode = "200", description = "Usuario deletado com sucesso")
-    @ApiResponse(responseCode = "404", description = "Usuario não encontrado")
+    @ApiResponse(responseCode = "403", description = "Usuario não encontrado")
     @ApiResponse(responseCode = "500", description = "Erro no servidor")
+    @ApiResponse(responseCode = "401", description = "Usuario não autorizado")
     public ResponseEntity<UsuarioDTORequest> atualizaDadosUsuario(@RequestBody UsuarioDTORequest dto,
                                                                   @RequestHeader(name = "Authorization", required =false) String token){
         return ResponseEntity.ok(usuarioService.atualizaDadosUsuario(token, dto));
@@ -74,8 +76,9 @@ public class UsuarioController {
     @PutMapping("/endereco")
     @Operation(summary = "Atualizar endereço do Usuarios", description = "Atualizar endereço do Usuarios")
     @ApiResponse(responseCode = "200", description = "Endereço Atualizado com sucesso")
-    @ApiResponse(responseCode = "404", description = "Usuario não encontrado")
+    @ApiResponse(responseCode = "403", description = "Usuario não encontrado")
     @ApiResponse(responseCode = "500", description = "Erro no servidor")
+    @ApiResponse(responseCode = "401", description = "Usuario não autorizado")
     public ResponseEntity<EnderecoDTORequest> atualizaEndereco(@RequestBody EnderecoDTORequest dto, @RequestParam("id") Long id,
                                                                @RequestHeader(name = "Authorization", required =false) String token){
         return ResponseEntity.ok(usuarioService.atualizaEndereco(id, dto, token));
@@ -84,8 +87,9 @@ public class UsuarioController {
     @PutMapping("/telefone")
     @Operation(summary = "Atualizar telefone do Usuarios", description = "Atualizar telefone do Usuarios")
     @ApiResponse(responseCode = "200", description = "telefone Atualizado com sucesso")
-    @ApiResponse(responseCode = "404", description = "Usuario não encontrado")
+    @ApiResponse(responseCode = "403", description = "Usuario não encontrado")
     @ApiResponse(responseCode = "500", description = "Erro no servidor")
+    @ApiResponse(responseCode = "401", description = "Usuario não autorizado")
     public ResponseEntity<TelefoneDTORequest> atualizaTelefone(@RequestBody TelefoneDTORequest dto, @RequestParam("id") Long id,
                                                                @RequestHeader(name = "Authorization", required =false) String token){
         return ResponseEntity.ok(usuarioService.atualizaTelefone(id, dto, token));
